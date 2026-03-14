@@ -9,11 +9,9 @@
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <meta name="apple-mobile-web-app-title" content="Canchas Reservas"/>
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
-<meta http-equiv="Pragma" content="no-cache"/>
-<meta http-equiv="Expires" content="0"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
-<meta name="cache-buster" content="20250313-2155">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0, post-check=0, pre-check=0">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,800;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet"/>
@@ -447,14 +445,16 @@ main{max-width:700px;margin:0 auto;padding:28px 16px 100px;}
   letter-spacing:.02em;
 }
 
-/* today pill */
+/* Badge HOY */
 .today-pill{
-  display:inline-flex;align-items:center;
-  background:rgba(63,217,122,.12);border:1px solid rgba(63,217,122,.3);
-  border-radius:50px;padding:2px 9px;
-  font-size:10px;font-weight:800;
-  text-transform:uppercase;letter-spacing:.08em;
-  color:var(--green);vertical-align:middle;margin-left:6px;
+  display:block; /* Cambiado a block para nueva línea */
+  width:fit-content; /* Ancho ajustado al contenido */
+  margin:8px auto 0; /* Centrado con margen arriba */
+  background:var(--green);color:white;
+  padding:4px 12px;border-radius:20px;
+  font-size:10px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.05em;
+  animation:pulse 2s infinite;
 }
 
 /* ═══════════ MODALS ═══════════ */
@@ -725,8 +725,8 @@ main{max-width:700px;margin:0 auto;padding:28px 16px 100px;}
     <button class="btn-arrow" id="next-day">›</button>
   </div>
 
-  <!-- Stats -->
-  <div class="stats-row">
+  <!-- Stats (solo visible para admin) -->
+  <div class="stats-row" id="admin-stats" style="display:none;">
     <div class="stat-card"><span class="stat-num a" id="stat-total">—</span><span class="stat-label">Total horas</span></div>
     <div class="stat-card"><span class="stat-num r" id="stat-taken">—</span><span class="stat-label">Reservadas</span></div>
     <div class="stat-card"><span class="stat-num g" id="stat-free">—</span><span class="stat-label">Disponibles</span></div>
@@ -874,19 +874,26 @@ let pendingDel   = null;
 
 // ── utils ─────────────────────────────────────────────────────
 function todayStr(){
-  // Usar timezone de Chile directamente
+  // Método robusto para obtener fecha actual en Chile
   const now = new Date();
-  const options = {
+  
+  // Obtener fecha en timezone de Chile usando Intl (más confiable)
+  const chileDate = new Intl.DateTimeFormat('en-CA', {
     timeZone: 'America/Santiago',
     year: 'numeric',
     month: '2-digit',
     day: '2-digit'
-  };
-  const formatter = new Intl.DateTimeFormat('es-CL', options);
-  const parts = formatter.formatToParts(now);
-  const year = parts.find(p => p.type === 'year').value;
-  const month = parts.find(p => p.type === 'month').value;
-  const day = parts.find(p => p.type === 'day').value;
+  }).format(now);
+  
+  // Formato YYYY-MM-DD
+  const parts = chileDate.split('-');
+  const year = parts[0];
+  const month = parts[1];
+  const day = parts[2];
+  
+  console.log('🕐 Hora actual Chile:', now.toLocaleString('es-CL', {timeZone: 'America/Santiago'}));
+  console.log('📅 Fecha formateada:', `${year}-${month}-${day}`);
+  
   return `${year}-${month}-${day}`;
 }
 
@@ -984,14 +991,18 @@ onAuthStateChanged(auth,user=>{
   document.getElementById('hdr-guest').style.display = user?'none':'flex';
   document.getElementById('hdr-admin').style.display = user?'flex':'none';
   document.getElementById('admin-tip').style.display = user?'flex':'none';
+  document.getElementById('admin-stats').style.display = user?'grid':'none'; // Mostrar/ocultar estadísticas
   renderSchedule();
 });
 
 // ── Date nav ──────────────────────────────────────────────────
 (function initDate(){
   const inp=document.getElementById('date-input');
-  inp.value=currentDate; refreshLabel();
-  inp.addEventListener('change',()=>{ currentDate=inp.value; refreshLabel(); loadDate(currentDate); });
+  if(inp) { // Solo ejecutar si el input existe
+    inp.value=currentDate; 
+    refreshLabel();
+    inp.addEventListener('change',()=>{ currentDate=inp.value; refreshLabel(); loadDate(currentDate); });
+  }
   document.getElementById('prev-day').addEventListener('click',()=>shiftDay(-1));
   document.getElementById('next-day').addEventListener('click',()=>shiftDay(+1));
 })();
@@ -999,7 +1010,13 @@ onAuthStateChanged(auth,user=>{
 function refreshLabel(){
   const el=document.getElementById('date-label');
   let html=fmtDate(currentDate);
-  if(currentDate===todayStr()) html+=' <span class="today-pill">Hoy</span>';
+  const today = todayStr();
+  
+  // Agregar HOY como elemento separado al final
+  if(currentDate === today) {
+    html += ' <span class="today-pill">HOY</span>';
+  }
+  
   el.innerHTML=html;
 }
 function shiftDay(d){
@@ -1248,26 +1265,18 @@ document.getElementById('view-delete').addEventListener('click',async()=>{
 });
 
 // ── Boot ──────────────────────────────────────────────────────
-// Mostrar pantalla de carga
-const loadingScreen = document.getElementById('loading-screen');
-
-// Función para ocultar pantalla de carga
-function hideLoadingScreen() {
-  console.log('🎬 Ocultando pantalla de carga...');
-  loadingScreen.classList.add('hide');
-  setTimeout(() => {
-    loadingScreen.style.display = 'none';
-    console.log('✅ Pantalla de carga oculta');
-  }, 500);
-}
-
-// Iniciar carga inmediatamente
-console.log('🚀 Iniciando carga...');
+// Boot simple y directo
 loadDate(currentDate);
 
 // Ocultar pantalla de carga después de 2 segundos
 setTimeout(() => {
-  hideLoadingScreen();
+  const loadingScreen = document.getElementById('loading-screen');
+  if (loadingScreen) {
+    loadingScreen.classList.add('hide');
+    setTimeout(() => {
+      loadingScreen.style.display = 'none';
+    }, 500);
+  }
 }, 2000);
 </script>
 <!-- Service Worker Registration -->
@@ -1357,6 +1366,34 @@ style.textContent = `
   }
 `;
 document.head.appendChild(style);
+</script>
+<!-- Script Anti-Cache - Se ejecuta al final -->
+<script>
+// Forzar recarga completa - ANTI CACHE DEFINITIVO
+(function() {
+  const timestamp = Date.now();
+  const currentUrl = window.location.href;
+  
+  // Si no tiene timestamp, agregarlo y recargar
+  if (currentUrl.indexOf('?v=') === -1) {
+    const newUrl = currentUrl.split('?')[0] + '?v=' + timestamp;
+    console.log('🔄 Forzando recarga completa con timestamp:', newUrl);
+    window.location.replace(newUrl);
+    return;
+  }
+  
+  // Si ya tiene timestamp pero es viejo (más de 5 segundos), recargar
+  const urlParams = new URLSearchParams(window.location.search);
+  const existingTimestamp = parseInt(urlParams.get('v') || '0');
+  if (timestamp - existingTimestamp > 5000) {
+    const newUrl = currentUrl.split('?')[0] + '?v=' + timestamp;
+    console.log('⚡ Timestamp viejo, recargando:', newUrl);
+    window.location.replace(newUrl);
+    return;
+  }
+  
+  console.log('✅ Versión actual, cargando app...');
+})();
 </script>
 </body>
 </html>
