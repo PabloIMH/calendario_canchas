@@ -1331,7 +1331,7 @@ function toggleAdminStats() {
 <script>
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js')
+    navigator.serviceWorker.register('sw.js')
       .then((registration) => {
         console.log('✅ Service Worker registrado:', registration);
         
@@ -1419,6 +1419,12 @@ document.head.appendChild(style);
 <script>
 // Forzar recarga completa - ANTI CACHE DEFINITIVO
 (function() {
+  // ESCAPAR SI ES PWA: Si ya está instalada y corriendo como standalone, no recargar
+  if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+    console.log('📱 PWA Mode: Saltando anti-cache');
+    return;
+  }
+
   const timestamp = Date.now();
   const currentUrl = window.location.href;
   
@@ -1430,10 +1436,11 @@ document.head.appendChild(style);
     return;
   }
   
-  // Si ya tiene timestamp pero es viejo (más de 5 segundos), recargar
+  // Si ya tiene timestamp pero es viejo (más de 1 hora), recargar
+  // Cambiado de 5 segundos a 1 hora para no ser tan agresivo y permitir que la PWA respire
   const urlParams = new URLSearchParams(window.location.search);
   const existingTimestamp = parseInt(urlParams.get('v') || '0');
-  if (timestamp - existingTimestamp > 5000) {
+  if (timestamp - existingTimestamp > 3600000) { 
     const newUrl = currentUrl.split('?')[0] + '?v=' + timestamp;
     console.log('⚡ Timestamp viejo, recargando:', newUrl);
     window.location.replace(newUrl);
