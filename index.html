@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<title>Canchas · Reservas</title>
+<meta name="description" content="Sistema de reservas de canchas deportivas"/>
+<meta name="theme-color" content="#3fd97a"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="Canchas Reservas"/>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+<meta http-equiv="Pragma" content="no-cache"/>
+<meta http-equiv="Expires" content="0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<meta name="cache-buster" content="20250313-2155">
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,800;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet"/>
+<link rel="icon" type="image/png" href="icon-192.png"/>
+<link rel="apple-touch-icon" href="icon-192.png"/>
+<link rel="manifest" href="manifest.json"/>
+<style>
+/* Versión: 2.0 - Fondo limpio y zona horaria chilena */
+/* Versión: 2.0 - Fondo limpio y zona horaria chilena */
+:root {
+  --ink:      #0d1117;
+  --ink-2:    #161c26;
+  --ink-3:    #1e2736;
+  --surface:  #242e3f;
+  --border:   rgba(255,255,255,.07);
+  --border-2: rgba(255,255,255,.13);
+  --text:     #e8edf5;
+  --text-2:   #8b97ab;
+  --text-3:   #5a6678;
+  --green:    #3fd97a;
+  --red:      #f05252;
+  --amber:    #f59e0b;
+  --purple:   #8b5cf6;
+  --blue:     #3b82f6;
+  --r:        14px;
+  --r-lg:     22px;
+  --r-xl:     28px;
+}
+
+/* Forzar recarga completa de estilos */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: linear-gradient(135deg, #0f172a 0%, #0d1117 50%, #020617 100%);
+  color: var(--text);
+  min-height: 100dvh;
+  overflow-x: hidden;
+}
+
+/* Evitar cache de estilos */
+body::before {
+  display: none !important;
+  content: '' !important;
+}
+
+body::after {
+  display: none !important;
+  content: '' !important;
+}
+
+/* ═══════════ HEADER ═══════════ */
+#site-header{
+  position:sticky;top:0;z-index:80;
+  height:62px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 20px;
+  background:rgba(13,17,23,.95);
+  border-bottom:1px solid var(--border);
+  box-shadow:0 4px 32px rgba(0,0,0,.3);
+}
+.h-brand{display:flex;align-items:center;gap:11px;}
+.h-logo{
+  width:36px;height:36px;
+  background:linear-gradient(135deg,var(--green),#1da854);
+  border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:17px;
+  box-shadow:0 4px 14px rgba(63,217,122,.35);
+  flex-shrink:0;
+}
+.h-name{
+  font-family:'DM Serif Display',serif;
+  font-size:19px;font-weight:400;color:var(--text);
+}
+.h-name em{font-style:italic;color:var(--green);}
+
+.btn-admin-login{
+  display:flex;align-items:center;gap:6px;
+  background:linear-gradient(135deg,rgba(255,255,255,.05),rgba(255,255,255,.02));
+  border:1.5px solid var(--border-2);
+  color:var(--text-2);padding:7px 12px;border-radius:10px;
+  font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;
+  cursor:pointer;transition:all .2s;white-space:nowrap;
+}
+.btn-admin-login:hover{
+  border-color:var(--green);color:var(--green);
+  background:linear-gradient(135deg,rgba(63,217,122,.1),rgba(63,217,122,.05));
+  box-shadow:0 4px 12px rgba(63,217,122,.2);
+}
+
+.admin-bar{display:flex;align-items:center;gap:10px;}
+.admin-pill{
+  display:flex;align-items:center;gap:6px;
+  background:rgba(63,217,122,.1);
+  border:1px solid rgba(63,217,122,.25);
+  border-radius:50px;padding:5px 12px;
+  font-size:12px;font-weight:700;color:var(--green);
+}
+.admin-pill .dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--green);box-shadow:0 0 6px var(--green);
+  animation:blink 2s infinite;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.btn-logout{
+  display:flex;align-items:center;gap:5px;
+  background:transparent;border:1.5px solid var(--border-2);
+  color:var(--text-2);padding:7px 12px;border-radius:10px;
+  font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;
+  cursor:pointer;transition:all .2s;
+}
+.btn-logout:hover{border-color:var(--red);color:var(--red);}
+
+/* ═══════════ MAIN ═══════════ */
+main{max-width:700px;margin:0 auto;padding:28px 16px 100px;}
+
+/* Hero */
+.hero{
+  position:relative;border-radius:var(--r-xl);overflow:hidden;
+  margin-bottom:22px;padding:32px 28px;
+  background:linear-gradient(135deg,var(--ink-2) 0%, #0d1f14 100%);
+  border:1px solid rgba(63,217,122,.15);
+  box-shadow:0 8px 32px rgba(0,0,0,.2), 0 0 0 1px rgba(255,255,255,.02);
+  animation:fadeUp .5s cubic-bezier(.4,0,.2,1) both;
+  min-height:120px;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 80% 50%,rgba(63,217,122,.08) 0%,transparent 65%);
+  pointer-events:none;z-index:1;
+}
+.hero::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(45deg,transparent 30%, rgba(139,92,246,.02) 50%, transparent 70%);
+  pointer-events:none;z-index:2;
+}
+.hero-eyebrow{
+  position:relative;z-index:3;
+  display:inline-flex;align-items:center;gap:7px;
+  background:linear-gradient(135deg,rgba(63,217,122,.12),rgba(63,217,122,.06));
+  border:1px solid rgba(63,217,122,.25);
+  border-radius:50px;padding:5px 13px 5px 9px;
+  font-size:12px;font-weight:700;color:var(--green);margin-bottom:16px;
+}
+.hero-eyebrow .dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--green);box-shadow:0 0 6px var(--green);
+  animation:blink 2s infinite;
+}
+.hero h1{
+  position:relative;z-index:3;
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(26px,6vw,36px);
+  font-weight:400;line-height:1.15;color:var(--text);margin-bottom:8px;
+}
+.hero h1 em{font-style:italic;color:var(--green);}
+.hero p{
+  position:relative;z-index:3;
+  font-size:15px;color:var(--text-2);max-width:360px;
+}
+.hero-icon{
+  position:absolute;right:24px;top:50%;transform:translateY(-50%);
+  font-size:72px;opacity:.12;pointer-events:none;display:none;z-index:1;
+}
+@media(min-width:440px){.hero-icon{display:block;}}
+
+/* Date strip */
+.date-strip{
+  background:var(--ink-2);border:1px solid var(--border);
+  border-radius:var(--r-lg);padding:18px;margin-bottom:16px;
+  display:flex;align-items:center;gap:12px;
+  animation:fadeUp .5s .08s cubic-bezier(.4,0,.2,1) both;
+}
+.btn-arrow{
+  width:44px;height:44px;border-radius:11px;
+  background:var(--ink-3);border:1.5px solid var(--border-2);
+  color:var(--text-2);font-size:20px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all .2s;flex-shrink:0;line-height:1;
+}
+.btn-arrow:hover{border-color:var(--green);color:var(--green);background:rgba(63,217,122,.06);}
+.date-center{flex:1;text-align:center;}
+#date-label{
+  font-family:'DM Serif Display',serif;
+  font-size:18px;color:var(--text);
+  display:block;margin-bottom:7px;line-height:1.3;
+}
+#date-input{
+  width:100%;padding:9px 14px;
+  background:var(--ink-3);border:1.5px solid var(--border-2);
+  border-radius:10px;font-family:'DM Sans',sans-serif;
+  font-size:14px;font-weight:600;color:var(--text-2);
+  text-align:center;cursor:pointer;outline:none;
+  transition:border-color .2s;color-scheme:dark;
+}
+#date-input:focus{border-color:var(--green);}
+
+/* Stats */
+.stats-row{
+  display:grid;grid-template-columns:1fr 1fr 1fr;
+  gap:10px;margin-bottom:18px;
+  animation:fadeUp .5s .12s cubic-bezier(.4,0,.2,1) both;
+}
+.stat-card{
+  background:linear-gradient(135deg,var(--ink-2),var(--ink-3));
+  border:1px solid var(--border);
+  border-radius:var(--r-lg);padding:16px 10px;text-align:center;
+  box-shadow:0 4px 16px rgba(0,0,0,.1), 0 0 0 1px rgba(255,255,255,.01);
+  transition:transform .2s, box-shadow .2s;
+}
+.stat-card:hover{
+  transform:translateY(-2px);
+  box-shadow:0 6px 20px rgba(0,0,0,.15), 0 0 0 1px rgba(255,255,255,.02);
+}
+.stat-num{
+  font-family:'DM Serif Display',serif;
+  font-size:28px;font-weight:400;
+  display:block;line-height:1;margin-bottom:4px;
+}
+.stat-num.a{color:var(--amber);text-shadow:0 0 8px rgba(245,158,11,.3);}
+.stat-num.r{color:var(--red);text-shadow:0 0 8px rgba(240,82,82,.3);}
+.stat-num.g{color:var(--green);text-shadow:0 0 8px rgba(63,217,122,.3);}
+.stat-label{
+  font-size:10px;font-weight:800;
+  text-transform:uppercase;letter-spacing:.08em;color:var(--text-3);
+}
+
+/* Court labels */
+.court-labels{
+  display:grid;grid-template-columns:56px 1fr 1fr;
+  gap:6px;margin-bottom:6px;padding:0 2px;
+  animation:fadeUp .5s .16s cubic-bezier(.4,0,.2,1) both;
+  position:sticky;top:62px;z-index:65;background:transparent;padding-bottom:10px;
+  margin-right:0;
+}
+.court-lbl{
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  background:linear-gradient(135deg,var(--ink-2),var(--ink-3));
+  border:1px solid var(--border);
+  border-radius:var(--r);padding:13px 8px;gap:4px;
+  box-shadow:0 2px 8px rgba(0,0,0,.1);
+  position:relative;z-index:1;
+}
+.court-lbl .name{
+  font-size:11px;font-weight:800;
+  text-transform:uppercase;letter-spacing:.06em;color:var(--text-2);
+}
+.court-lbl.empty{background:transparent;border-color:transparent;}
+
+/* Date strip sticky */
+.date-strip{
+  background:var(--ink-2);border:1px solid var(--border);
+  border-radius:var(--r-lg);padding:18px;margin-bottom:16px;
+  display:flex;align-items:center;gap:12px;
+  animation:fadeUp .5s .08s cubic-bezier(.4,0,.2,1) both;
+  position:sticky;top:62px;z-index:75;
+}
+
+/* Schedule */
+.schedule-wrap{
+  display:flex;flex-direction:column;gap:5px;
+  animation:fadeUp .5s .2s cubic-bezier(.4,0,.2,1) both;
+}
+
+/* Time blocks */
+.time-block{
+  margin-bottom:24px;
+}
+.time-block-header{
+  display:flex;align-items:center;gap:8px;
+  margin-bottom:8px;padding:8px 12px;
+  background:linear-gradient(135deg,var(--ink-2),var(--ink-3));
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  font-size:12px;font-weight:800;color:var(--text-2);
+  text-transform:uppercase;letter-spacing:.08em;
+}
+.time-block-icon{
+  font-size:16px;opacity:.7;
+}
+.sched-row{display:grid;grid-template-columns:56px 1fr 1fr;gap:5px;}
+.time-pill{
+  background:var(--ink-2);border:1px solid var(--border);
+  border-radius:11px;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:1px;
+}
+.time-h{font-size:14px;font-weight:800;color:var(--text-2);line-height:1;}
+.time-m{font-size:10px;font-weight:600;color:var(--text-3);}
+
+/* ── PUBLIC SLOTS (solo lectura) ── */
+.pub-slot{
+  min-height:54px;border-radius:11px;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:3px;padding:10px 8px;text-align:center;
+  border:1.5px solid transparent;
+}
+.pub-free{
+  background:rgba(63,217,122,.06);
+  border-color:rgba(63,217,122,.15);
+}
+.pub-free .ps-label{
+  font-size:11px;font-weight:800;
+  text-transform:uppercase;letter-spacing:.06em;
+  color:rgba(63,217,122,.5);
+}
+.pub-taken{
+  background:rgba(240,82,82,.07);
+  border-color:rgba(240,82,82,.18);
+}
+.pub-taken .ps-tag{
+  font-size:11px;font-weight:800;
+  text-transform:uppercase;letter-spacing:.05em;
+  color:rgba(240,82,82,.6);
+}
+
+/* ── ADMIN SLOTS (interactivos) ── */
+.adm-slot{
+  min-height:54px;border-radius:var(--r-lg);
+  border:1.5px solid transparent;
+  font-family:'DM Sans',sans-serif;
+  cursor:pointer;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:3px;padding:10px 8px;text-align:center;
+  transition:all .18s cubic-bezier(.4,0,.2,1);
+}
+.adm-free{background:linear-gradient(135deg,rgba(63,217,122,.08),rgba(63,217,122,.03));border-color:rgba(63,217,122,.15);}
+.adm-free .si{font-size:16px;opacity:.35;transition:opacity .2s,transform .2s;}
+.adm-free .st{
+  font-size:10px;font-weight:800;
+  text-transform:uppercase;letter-spacing:.06em;
+  color:rgba(63,217,122,.4);transition:color .2s;
+}
+.adm-free:hover{
+  background:linear-gradient(135deg,rgba(63,217,122,.15),rgba(63,217,122,.08));
+  border-color:rgba(63,217,122,.4);
+  box-shadow:0 8px 24px rgba(63,217,122,.15), 0 0 0 1px rgba(63,217,122,.1);
+  transform:translateY(-3px);
+}
+.adm-free:hover .si{opacity:1;transform:scale(1.2) rotate(12deg);}
+.adm-free:hover .st{color:var(--green);}
+.adm-free:active{transform:scale(.96);}
+.adm-taken{
+  background:linear-gradient(135deg,rgba(240,82,82,.08),rgba(240,82,82,.03));
+  border-color:rgba(240,82,82,.15);
+}
+.adm-taken:hover{
+  background:linear-gradient(135deg,rgba(240,82,82,.15),rgba(240,82,82,.08));
+  border-color:rgba(240,82,82,.4);
+  box-shadow:0 8px 24px rgba(240,82,82,.15), 0 0 0 1px rgba(240,82,82,.1);
+  transform:translateY(-3px);
+}
+.adm-taken:active{transform:scale(.96);}
+.slot-name{
+  font-size:13px;font-weight:700;color:var(--text);
+  max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:100%;
+}
+.slot-detail{
+  font-size:10px;font-weight:500;color:var(--text-3);
+  max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:100%;
+}
+
+/* Skeleton */
+.slot-skel{
+  min-height:54px;border-radius:11px;
+  background:linear-gradient(90deg,var(--ink-2) 25%,var(--ink-3) 50%,var(--ink-2) 75%);
+  background-size:200% 100%;animation:shimmer 1.4s infinite;
+  border:1px solid var(--border);
+}
+.time-skel{min-height:54px;border-radius:11px;background:var(--ink-2);border:1px solid var(--border);}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* Legend */
+.legend{
+  display:flex;justify-content:center;gap:20px;
+  margin-top:20px;flex-wrap:wrap;
+}
+.legend-item{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:600;color:var(--text-3);}
+.legend-dot{width:10px;height:10px;border-radius:3px;}
+.legend-dot.g{background:var(--green);}
+.legend-dot.r{background:var(--red);}
+
+/* Admin info */
+.admin-info{
+  display:flex;align-items:center;gap:12px;
+  background:linear-gradient(135deg,rgba(63,217,122,.08),rgba(63,217,122,.04));
+  border:1px solid rgba(63,217,122,.15);
+  border-radius:16px;padding:12px 20px;margin-bottom:20px;
+  animation:fadeUp .5s .1s cubic-bezier(.4,0,.2,1) both;
+}
+.info-icon{
+  font-size:18px;opacity:.8;
+}
+.info-text{
+  font-size:13px;font-weight:700;color:var(--green);
+  letter-spacing:.02em;
+}
+
+/* today pill */
+.today-pill{
+  display:inline-flex;align-items:center;
+  background:rgba(63,217,122,.12);border:1px solid rgba(63,217,122,.3);
+  border-radius:50px;padding:2px 9px;
+  font-size:10px;font-weight:800;
+  text-transform:uppercase;letter-spacing:.08em;
+  color:var(--green);vertical-align:middle;margin-left:6px;
+}
+
+/* ═══════════ MODALS ═══════════ */
+.overlay{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.75);
+  z-index:200;
+  display:flex;align-items:flex-end;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .25s;
+}
+.overlay.open{opacity:1;pointer-events:all;}
+.sheet{
+  background:var(--ink-2);
+  border-top:1px solid var(--border-2);
+  border-radius:28px 28px 0 0;
+  padding:12px 24px 52px;
+  width:100%;max-width:460px;
+  transform:translateY(100%);
+  transition:transform .32s cubic-bezier(.4,0,.2,1);
+}
+.overlay.open .sheet{transform:translateY(0);}
+.sh-handle{
+  width:36px;height:4px;background:var(--border-2);
+  border-radius:2px;margin:0 auto 24px;
+}
+.sheet h2{
+  font-family:'DM Serif Display',serif;
+  font-size:28px;font-weight:400;line-height:1.2;margin-bottom:6px;
+}
+.sheet .sub{font-size:14px;color:var(--text-2);margin-bottom:28px;}
+.field{margin-bottom:14px;}
+.field label{
+  display:block;font-size:11px;font-weight:800;
+  text-transform:uppercase;letter-spacing:.09em;
+  color:var(--text-3);margin-bottom:7px;
+}
+.field input,.field textarea{
+  width:100%;padding:14px 16px;
+  background:var(--ink-3);border:1.5px solid var(--border-2);
+  border-radius:12px;font-family:'DM Sans',sans-serif;
+  font-size:16px;font-weight:500;color:var(--text);
+  outline:none;transition:border-color .2s,box-shadow .2s;
+  resize:none;color-scheme:dark;
+}
+.field input::placeholder,.field textarea::placeholder{color:var(--text-3);font-weight:400;}
+.field input:focus,.field textarea:focus{
+  border-color:var(--green);box-shadow:0 0 0 4px rgba(63,217,122,.1);
+}
+.sh-actions{display:flex;gap:10px;margin-top:18px;}
+.btn-ghost{
+  flex:1;padding:15px;background:transparent;
+  border:1.5px solid var(--border-2);border-radius:12px;
+  font-family:'DM Sans',sans-serif;
+  font-size:15px;font-weight:700;color:var(--text-2);
+  cursor:pointer;transition:all .2s;
+}
+.btn-ghost:hover{border-color:var(--text-3);color:var(--text);}
+.btn-green{
+  flex:2;padding:15px;background:var(--green);border:none;
+  border-radius:12px;font-family:'DM Sans',sans-serif;
+  font-size:15px;font-weight:800;color:#061510;
+  cursor:pointer;transition:all .2s;
+  box-shadow:0 4px 16px rgba(63,217,122,.25);
+}
+.btn-green:hover{background:#50e88b;box-shadow:0 6px 24px rgba(63,217,122,.35);}
+.btn-green:disabled{opacity:.45;cursor:not-allowed;box-shadow:none;}
+.btn-red{
+  flex:2;padding:15px;background:transparent;
+  border:1.5px solid rgba(240,82,82,.5);border-radius:12px;
+  font-family:'DM Sans',sans-serif;
+  font-size:15px;font-weight:800;color:var(--red);
+  cursor:pointer;transition:all .2s;
+}
+.btn-red:hover{background:rgba(240,82,82,.1);border-color:var(--red);box-shadow:0 4px 16px rgba(240,82,82,.2);}
+#login-error{
+  font-size:13px;font-weight:600;color:var(--red);
+  margin-top:10px;min-height:18px;text-align:center;
+}
+.sh-eye{display:flex;align-items:center;gap:8px;margin-bottom:12px;}
+.chip{
+  background:var(--ink-3);border:1px solid var(--border-2);
+  border-radius:8px;padding:4px 10px;
+  font-size:12px;font-weight:700;color:var(--text-2);
+}
+.chip.g{background:rgba(63,217,122,.1);border-color:rgba(63,217,122,.25);color:var(--green);}
+.res-card{
+  background:var(--ink-3);border:1px solid var(--border-2);
+  border-radius:16px;padding:20px;margin-bottom:24px;
+}
+.res-name{
+  font-family:'DM Serif Display',serif;
+  font-size:26px;font-weight:400;color:var(--text);margin-bottom:10px;
+}
+.res-row{
+  display:flex;align-items:center;gap:8px;
+  font-size:14px;font-weight:500;color:var(--text-2);margin-bottom:6px;
+}
+.res-row:last-child{margin-bottom:0;}
+
+/* Toast */
+#toast{
+  position:fixed;bottom:28px;left:50%;
+  transform:translateX(-50%) translateY(90px);
+  background:var(--ink-3);border:1px solid var(--border-2);
+  color:var(--text);
+  padding:12px 22px;border-radius:50px;
+  font-size:14px;font-weight:700;z-index:300;
+  transition:transform .32s cubic-bezier(.4,0,.2,1);
+  white-space:nowrap;pointer-events:none;
+  box-shadow:0 12px 40px rgba(0,0,0,.4);
+}
+#toast.show{transform:translateX(-50%) translateY(0);}
+#toast.success{border-color:rgba(63,217,122,.35);}
+#toast.error{border-color:rgba(240,82,82,.35);color:var(--red);}
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(20px);}
+  to{opacity:1;transform:translateY(0);}
+}
+@media(min-width:580px){
+  .overlay{align-items:center;}
+  .sheet{border-radius:28px;margin-bottom:28px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ HEADER ════════════════════════════════════════════════ -->
+<header id="site-header">
+  <div class="h-brand">
+    <div class="h-name">Canchas <em>·</em> Reservas</div>
+  </div>
+  <div id="hdr-guest">
+    <button class="btn-admin-login" id="btn-open-login">
+      <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><rect x="2" y="1" width="10" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><circle cx="7" cy="6" r="2" stroke="currentColor" stroke-width="1.4"/><path d="M4 13c0-1.657 1.343-3 3-3s3 1.343 3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      Administrador
+    </button>
+  </div>
+  <div id="hdr-admin" class="admin-bar" style="display:none">
+    <div class="admin-pill"><span class="dot"></span>Admin</div>
+    <button class="btn-logout" id="btn-logout">
+      <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M5 2H2a1 1 0 00-1 1v8a1 1 0 001 1h3M9 10l3-3-3-3M13 7H5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Salir
+    </button>
+  </div>
+</header>
+
+<!-- ══ MAIN ══════════════════════════════════════════════════ -->
+<main>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-eyebrow"><span class="dot"></span>Disponibilidad en tiempo real</div>
+    <h1>Consulta los<br><em>horarios libres</em></h1>
+    <p>Revisa qué horas están disponibles y cuáles ya están reservadas.</p>
+    <div class="hero-icon">🏟</div>
+  </div>
+
+  <!-- Admin tip (solo visible cuando está logueado) -->
+  <div class="admin-info" id="admin-tip" style="display:none">
+    <span class="info-icon">✏️</span>
+    <span class="info-text">Modo admin activo</span>
+  </div>
+
+  <!-- Date strip -->
+  <div class="date-strip">
+    <button class="btn-arrow" id="prev-day">‹</button>
+    <div class="date-center">
+      <span id="date-label">—</span>
+      <input type="date" id="date-input"/>
+    </div>
+    <button class="btn-arrow" id="next-day">›</button>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-row">
+    <div class="stat-card"><span class="stat-num a" id="stat-total">—</span><span class="stat-label">Total horas</span></div>
+    <div class="stat-card"><span class="stat-num r" id="stat-taken">—</span><span class="stat-label">Reservadas</span></div>
+    <div class="stat-card"><span class="stat-num g" id="stat-free">—</span><span class="stat-label">Disponibles</span></div>
+  </div>
+
+  <!-- Court labels -->
+  <div class="court-labels">
+    <div class="court-lbl empty"></div>
+    <div class="court-lbl"><span class="name">Cancha Fútbol 7</span></div>
+    <div class="court-lbl"><span class="name">Cancha Fútbol 9</span></div>
+  </div>
+
+  <!-- Schedule -->
+  <div class="schedule-wrap" id="schedule"></div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot g"></div>Disponible</div>
+    <div class="legend-item"><div class="legend-dot r"></div>Reservada</div>
+  </div>
+
+</main>
+
+<!-- ══ MODAL: LOGIN ADMIN ════════════════════════════════════ -->
+<div class="overlay" id="ov-login">
+  <div class="sheet">
+    <div class="sh-handle"></div>
+    <h2>Acceso<br>administrador</h2>
+    <p class="sub">Ingresa con tu cuenta para gestionar las reservas.</p>
+    <div class="field"><label>Correo</label><input type="email" id="l-email" placeholder="tu@correo.cl" autocomplete="email"/></div>
+    <div class="field"><label>Contraseña</label><input type="password" id="l-pass" placeholder="••••••••" autocomplete="current-password"/></div>
+    <div id="login-error"></div>
+    <div class="sh-actions">
+      <button class="btn-ghost" id="btn-close-login">Cancelar</button>
+      <button class="btn-green" id="btn-do-login">Ingresar →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL: NUEVA RESERVA ══════════════════════════════════ -->
+<div class="overlay" id="ov-book">
+  <div class="sheet">
+    <div class="sh-handle"></div>
+    <div class="sh-eye">
+      <span class="chip g" id="book-hora">—</span>
+      <span class="chip" id="book-cancha">—</span>
+    </div>
+    <h2>Nueva<br>reserva</h2>
+    <div class="field"><label>Nombre del cliente *</label><input type="text" id="book-name" placeholder="Ej: Juan Pérez" autocomplete="off"/></div>
+    <div class="field"><label>Teléfono (opcional)</label><input type="tel" id="book-phone" placeholder="Ej: +56 9 1234 5678" autocomplete="off"/></div>
+    <div class="field"><label>Nota (opcional)</label><textarea id="book-note" rows="2" placeholder="Ej: Trae sus propios chalecos"></textarea></div>
+    <div class="field">
+      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+        <input type="checkbox" id="book-permanent" style="width:18px;height:18px;cursor:pointer;">
+        <span style="color:var(--text);font-weight:600;">Reserva permanente</span>
+      </label>
+      <div style="font-size:11px;color:var(--text-3);margin-top:4px;">Esta hora se reservará automáticamente todos los días</div>
+    </div>
+    <div class="sh-actions">
+      <button class="btn-ghost" id="book-cancel">Cancelar</button>
+      <button class="btn-green" id="book-confirm">✓ Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL: VER / CANCELAR ════════════════════════════════ -->
+<div class="overlay" id="ov-view">
+  <div class="sheet">
+    <div class="sh-handle"></div>
+    <div class="sh-eye">
+      <span class="chip g" id="view-hora">—</span>
+      <span class="chip" id="view-cancha">—</span>
+    </div>
+    <h2>Reserva<br>activa</h2>
+    <div class="res-card">
+      <div class="res-name" id="view-name">—</div>
+      <div class="res-row" id="vp-row" style="display:none"><span>📞</span><span id="view-phone"></span></div>
+      <div class="res-row" id="vn-row" style="display:none"><span>📝</span><span id="view-note"></span></div>
+    </div>
+    <div class="sh-actions">
+      <button class="btn-ghost" id="view-close">Cerrar</button>
+      <button class="btn-red" id="view-delete">🗑 Cancelar reserva</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ TOAST ══════════════════════════════════════════════════ -->
+<div id="toast"></div>
+
+<!-- ══ FIREBASE ═══════════════════════════════════════════════ -->
+<script type="module">
+import { initializeApp }   from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged }
+                           from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, collection, doc, setDoc, deleteDoc, onSnapshot, query, where, getDocs }
+                           from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const CFG = {
+  apiKey:            "AIzaSyCjucPBSjVWkjYHKRgcgpvOZfNmQXpI4fo",
+  authDomain:        "horas-cancha.firebaseapp.com",
+  projectId:         "horas-cancha",
+  storageBucket:     "horas-cancha.firebasestorage.app",
+  messagingSenderId: "691495071064",
+  appId:             "1:691495071064:web:95f18736d4106aa42e492d",
+};
+const fbApp  = initializeApp(CFG);
+const auth   = getAuth(fbApp);
+const db     = getFirestore(fbApp);
+
+const COURTS = ["Cancha Fútbol 7","Cancha Fútbol 9"];
+const HOURS  = Array.from({length:16},(_,i)=>`${String(i+8).padStart(2,'0')}:00`);
+
+// Bloques de horas
+const TIME_BLOCKS = [
+  { name: "Mañana", icon: "🌅", hours: ["08:00","09:00","10:00","11:00","12:00"] },
+  { name: "Tarde", icon: "☀️", hours: ["13:00","14:00","15:00","16:00","17:00"] },
+  { name: "Noche", icon: "🌙", hours: ["18:00","19:00","20:00","21:00","22:00"] }
+];
+
+let currentDate  = todayStr();
+let reservations = {};
+let permanentReservations = {};
+let unsub        = null;
+let unsubPerm    = null;
+let isAdmin      = false;
+let pendingSlot  = null;
+let pendingDel   = null;
+
+// ── utils ─────────────────────────────────────────────────────
+function todayStr(){
+  // Usar timezone de Chile directamente
+  const now = new Date();
+  const options = {
+    timeZone: 'America/Santiago',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  };
+  const formatter = new Intl.DateTimeFormat('es-CL', options);
+  const parts = formatter.formatToParts(now);
+  const year = parts.find(p => p.type === 'year').value;
+  const month = parts.find(p => p.type === 'month').value;
+  const day = parts.find(p => p.type === 'day').value;
+  return `${year}-${month}-${day}`;
+}
+
+function fmtDate(dateStr){
+  if(dateStr==='today') return todayStr();
+  const [y,m,d]=dateStr.split('-');
+  const date = new Date(`${y}-${m}-${d}T00:00:00`);
+  const options = {
+    timeZone: 'America/Santiago',
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long'
+  };
+  return date.toLocaleDateString('es-CL', options);
+}
+
+function key(date,court,hour){return `${date}|${court}|${hour}`;}
+function nextH(h){const [hh]=h.split(':');let nh=parseInt(hh)+1;return nh<24?`${String(nh).padStart(2,'0')}:00`:'00:00';}
+
+// Obtener el día de la semana (0=Domingo, 1=Lunes, etc.)
+function getDayOfWeek(dateStr){
+  const [y,m,d] = dateStr.split('-').map(Number);
+  return new Date(y, m-1, d).getDay();
+}
+
+function generatePermanentReservationForDate(targetDate, court, hour, permRes){
+  const reservationKey=key(targetDate, court, hour);
+  
+  const permData={
+    date:targetDate,
+    court,
+    hour,
+    name:permRes.name,
+    phone:permRes.phone,
+    note:permRes.note,
+    isPermanent:true
+  };
+  
+  return setDoc(doc(db,'reservations',reservationKey),permData);
+}
+
+// ── toast ─────────────────────────────────────────────────────
+let tTimer;
+function toast(msg,type='success'){
+  const el=document.getElementById('toast');
+  el.textContent=msg; el.className=`show ${type}`;
+  clearTimeout(tTimer); tTimer=setTimeout(()=>{el.className='';},2800);
+}
+
+// ── overlay helpers ───────────────────────────────────────────
+function openOv(id){ document.getElementById(id).classList.add('open'); }
+function closeOv(id){ document.getElementById(id).classList.remove('open'); }
+
+// ── Auth ──────────────────────────────────────────────────────
+document.getElementById('btn-open-login').addEventListener('click',()=>{
+  document.getElementById('l-email').value='';
+  document.getElementById('l-pass').value='';
+  document.getElementById('login-error').textContent='';
+  openOv('ov-login');
+  setTimeout(()=>document.getElementById('l-email').focus(),320);
+});
+document.getElementById('btn-close-login').addEventListener('click',()=>closeOv('ov-login'));
+document.getElementById('ov-login').addEventListener('click',e=>{
+  if(e.target===document.getElementById('ov-login')) closeOv('ov-login');
+});
+document.getElementById('btn-do-login').addEventListener('click',async()=>{
+  const email=document.getElementById('l-email').value.trim();
+  const pass=document.getElementById('l-pass').value;
+  const btn=document.getElementById('btn-do-login');
+  const err=document.getElementById('login-error');
+  err.textContent=''; btn.disabled=true; btn.textContent='Ingresando…';
+  try{
+    await signInWithEmailAndPassword(auth,email,pass);
+    closeOv('ov-login');
+  }catch(e){
+    const msgs={
+      'auth/invalid-credential':'Usuario o contraseña incorrectos.',
+      'auth/user-not-found':'No existe ese usuario.',
+      'auth/wrong-password':'Contraseña incorrecta.',
+      'auth/invalid-email':'El correo no es válido.',
+      'auth/too-many-requests':'Demasiados intentos. Espera un momento.',
+    };
+    err.textContent=msgs[e.code]||'Error al ingresar.';
+  }finally{
+    btn.disabled=false; btn.textContent='Ingresar →';
+  }
+});
+document.getElementById('l-pass').addEventListener('keydown',e=>{
+  if(e.key==='Enter') document.getElementById('btn-do-login').click();
+});
+document.getElementById('btn-logout').addEventListener('click',()=>signOut(auth));
+
+onAuthStateChanged(auth,user=>{
+  isAdmin=!!user;
+  document.getElementById('hdr-guest').style.display = user?'none':'flex';
+  document.getElementById('hdr-admin').style.display = user?'flex':'none';
+  document.getElementById('admin-tip').style.display = user?'flex':'none';
+  renderSchedule();
+});
+
+// ── Date nav ──────────────────────────────────────────────────
+(function initDate(){
+  const inp=document.getElementById('date-input');
+  inp.value=currentDate; refreshLabel();
+  inp.addEventListener('change',()=>{ currentDate=inp.value; refreshLabel(); loadDate(currentDate); });
+  document.getElementById('prev-day').addEventListener('click',()=>shiftDay(-1));
+  document.getElementById('next-day').addEventListener('click',()=>shiftDay(+1));
+})();
+
+function refreshLabel(){
+  const el=document.getElementById('date-label');
+  let html=fmtDate(currentDate);
+  if(currentDate===todayStr()) html+=' <span class="today-pill">Hoy</span>';
+  el.innerHTML=html;
+}
+function shiftDay(d){
+  const [y,m,day]=currentDate.split('-').map(Number);
+  currentDate=new Date(y,m-1,day+d).toISOString().split('T')[0];
+  document.getElementById('date-input').value=currentDate;
+  refreshLabel(); loadDate(currentDate);
+}
+
+// ── Firestore ─────────────────────────────────────────────────
+function loadDate(date){
+  if(unsub) unsub();
+  if(unsubPerm) unsubPerm();
+  renderSkel();
+  
+  // Cargar reservas del día
+  const q=query(collection(db,'reservations'),where('date','==',date));
+  unsub=onSnapshot(q,snap=>{
+    reservations={};
+    snap.forEach(d=>{ const r=d.data(); reservations[key(r.date,r.court,r.hour)]=r; });
+    renderSchedule(); updateStats();
+  });
+  
+  // Cargar reservas permanentes y aplicarlas al día actual
+  const qPerm=query(collection(db,'permanent_reservations'));
+  unsubPerm=onSnapshot(qPerm,snap=>{
+    permanentReservations={};
+    snap.forEach(d=>{ 
+      const r=d.data(); 
+      permanentReservations[`${r.court}|${r.hour}|${r.dayOfWeek}`]=r;
+    });
+    applyPermanentReservations(date);
+  });
+}
+
+function applyPermanentReservations(date){
+  const promises = [];
+  const currentDayOfWeek = getDayOfWeek(date);
+  
+  Object.entries(permanentReservations).forEach(([permKey, permRes])=>{
+    const [court, hour, dayOfWeek] = permKey.split('|');
+    
+    // Protección: ignorar permanentes corruptas (dayOfWeek undefined o inválido)
+    if(dayOfWeek === undefined || dayOfWeek === 'undefined' || isNaN(parseInt(dayOfWeek))){
+      return; // Silenciosamente ignorar datos corruptos
+    }
+    
+    // Solo aplicar si coincide el día de la semana
+    if(parseInt(dayOfWeek) === currentDayOfWeek){
+      const reservationKey=key(date, court, hour);
+      
+      // Si no existe ya una reserva para este día, crear la permanente
+      if(!reservations[reservationKey]){
+        const permData={
+          date,court,hour,
+          name:permRes.name,
+          phone:permRes.phone,
+          note:permRes.note,
+          isPermanent:true
+        };
+        reservations[reservationKey]=permData;
+        
+        // Generar la reserva en Firestore para esta fecha
+        promises.push(generatePermanentReservationForDate(date, court, hour, permRes));
+      }
+    }
+  });
+  
+  // Ejecutar todas las creaciones en paralelo
+  if(promises.length > 0){
+    Promise.allSettled(promises).then(() => {
+      renderSchedule(); updateStats();
+    });
+  } else {
+    renderSchedule(); updateStats();
+  }
+}
+
+function updateStats(){
+  const total=COURTS.length*HOURS.length;
+  const taken=Object.keys(reservations).length;
+  document.getElementById('stat-total').textContent=total;
+  document.getElementById('stat-taken').textContent=taken;
+  document.getElementById('stat-free').textContent=total-taken;
+}
+
+// ── Render ────────────────────────────────────────────────────
+function renderSkel(){
+  document.getElementById('schedule').innerHTML=
+    TIME_BLOCKS.map(block=>`<div class="time-block">
+      <div class="time-block-header">
+        <span class="time-block-icon">${block.icon}</span>
+        <span>${block.name}</span>
+      </div>
+      ${block.hours.map(()=>`<div class="sched-row"><div class="time-skel"></div><div class="slot-skel"></div><div class="slot-skel"></div></div>`).join('')}
+    </div>`).join('');
+}
+
+function renderSchedule(){
+  const body=document.getElementById('schedule');
+  if(!body) return;
+  
+  body.innerHTML=TIME_BLOCKS.map(block=>{
+    const blockRows = block.hours.map(hour=>{
+      const hh=hour.split(':')[0];
+      const cols=COURTS.map(court=>{
+        const res=reservations[key(currentDate,court,hour)];
+        if(isAdmin){
+          if(res){
+            const det=[res.phone&&`📞 ${res.phone}`,res.note&&`📝 ${res.note}`].filter(Boolean).join(' · ');
+            const permanentBadge=res.isPermanent?`<div style="color:var(--amber);font-size:9px;font-weight:800;margin-top:2px;">🔒 PERMANENTE</div>`:'';
+            return `<button class="adm-slot adm-taken" data-court="${court}" data-hour="${hour}" data-action="view">
+              <div style="text-align:center;">
+                <span class="slot-name">${res.name}</span>
+                ${permanentBadge}
+              </div>
+              ${det?`<span class="slot-detail">${det}</span>`:''}
+            </button>`;
+          }
+          return `<button class="adm-slot adm-free" data-court="${court}" data-hour="${hour}" data-action="book">
+            <span class="si">＋</span><span class="st">Libre</span>
+          </button>`;
+        } else {
+          if(res){
+            return `<div class="pub-slot pub-taken"><span class="ps-tag">Reservada</span></div>`;
+          }
+          return `<div class="pub-slot pub-free"><span class="ps-label">Disponible</span></div>`;
+        }
+      }).join('');
+      return `<div class="sched-row">
+        <div class="time-pill"><span class="time-h">${hh}</span><span class="time-m">hrs</span></div>
+        ${cols}
+      </div>`;
+    }).join('');
+    
+    return `<div class="time-block">
+      <div class="time-block-header">
+        <span class="time-block-icon">${block.icon}</span>
+        <span>${block.name}</span>
+      </div>
+      ${blockRows}
+    </div>`;
+  }).join('');
+
+  if(isAdmin){
+    body.querySelectorAll('[data-action="book"]').forEach(b=>
+      b.addEventListener('click',()=>openBook(b.dataset.court,b.dataset.hour)));
+    body.querySelectorAll('[data-action="view"]').forEach(b=>
+      b.addEventListener('click',()=>openView(b.dataset.court,b.dataset.hour)));
+  }
+}
+
+// ── Book modal ────────────────────────────────────────────────
+function openBook(court,hour){
+  pendingSlot={date:currentDate,court,hour};
+  document.getElementById('book-hora').textContent=`${hour} – ${nextH(hour)}`;
+  document.getElementById('book-cancha').textContent=court;
+  ['book-name','book-phone','book-note'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('book-permanent').checked=false; // Limpiar checkbox
+  openOv('ov-book');
+  setTimeout(()=>document.getElementById('book-name').focus(),320);
+}
+function closeBook(){ closeOv('ov-book'); pendingSlot=null; }
+document.getElementById('book-cancel').addEventListener('click',closeBook);
+document.getElementById('ov-book').addEventListener('click',e=>{
+  if(e.target===document.getElementById('ov-book')) closeBook();
+});
+document.getElementById('book-confirm').addEventListener('click',async()=>{
+  const name=document.getElementById('book-name').value.trim();
+  if(!name){ document.getElementById('book-name').focus(); return; }
+  const phone=document.getElementById('book-phone').value.trim();
+  const note=document.getElementById('book-note').value.trim();
+  const isPermanent=document.getElementById('book-permanent').checked;
+  const btn=document.getElementById('book-confirm');
+  btn.disabled=true; btn.textContent='Guardando…';
+  try{
+    const{date,court,hour}=pendingSlot;
+    const reservationData={date,court,hour,name,phone,note,isPermanent};
+    await setDoc(doc(db,'reservations',key(date,court,hour)),reservationData);
+    
+    // Si es permanente, guardar también con el día de la semana
+    if(isPermanent){
+      const dayOfWeek = getDayOfWeek(date); // 0=Domingo, 1=Lunes, etc.
+      await setDoc(doc(db,'permanent_reservations',`${court}|${hour}|${dayOfWeek}`),{
+        court,hour,dayOfWeek,name,phone,note,createdAt:new Date().toISOString()
+      });
+    }
+    
+    closeBook(); toast(isPermanent ? '✓ Reserva permanente creada' : '✓ Reserva guardada');
+  }catch{ toast('Error al guardar.','error'); }
+  finally{ btn.disabled=false; btn.textContent='✓ Confirmar'; }
+});
+
+// ── View modal ────────────────────────────────────────────────
+function openView(court,hour){
+  const res=reservations[key(currentDate,court,hour)];
+  if(!res) return;
+  pendingDel={date:currentDate,court,hour};
+  document.getElementById('view-hora').textContent=`${hour} – ${nextH(hour)}`;
+  document.getElementById('view-cancha').textContent=court;
+  document.getElementById('view-name').textContent=res.name;
+  const pr=document.getElementById('vp-row'),nr=document.getElementById('vn-row');
+  if(res.phone){ document.getElementById('view-phone').textContent=res.phone; pr.style.display='flex'; }
+  else pr.style.display='none';
+  if(res.note){ document.getElementById('view-note').textContent=res.note; nr.style.display='flex'; }
+  else nr.style.display='none';
+  openOv('ov-view');
+}
+function closeView(){ closeOv('ov-view'); pendingDel=null; }
+document.getElementById('view-close').addEventListener('click',closeView);
+document.getElementById('ov-view').addEventListener('click',e=>{
+  if(e.target===document.getElementById('ov-view')) closeView();
+});
+document.getElementById('view-delete').addEventListener('click',async()=>{
+  const btn=document.getElementById('view-delete');
+  btn.disabled=true; btn.textContent='Cancelando…';
+  try{
+    const{date,court,hour}=pendingDel;
+    const res=reservations[key(date,court,hour)];
+    
+    // Si es permanente, eliminar todas las instancias futuras
+    if(res && res.isPermanent){
+      const dayOfWeek = getDayOfWeek(date);
+      
+      // Eliminar la configuración permanente
+      await deleteDoc(doc(db,'permanent_reservations',`${court}|${hour}|${dayOfWeek}`));
+      
+      // Eliminar todas las reservas futuras con esta misma hora y cancha
+      const q=query(collection(db,'reservations'),where('court','==',court),where('hour','==',hour),where('isPermanent','==',true));
+      const querySnapshot = await getDocs(q);
+      
+      const deletePromises = [];
+      querySnapshot.forEach((doc) => {
+        deletePromises.push(deleteDoc(doc.ref));
+      });
+      
+      await Promise.all(deletePromises);
+    } else {
+      // Si no es permanente, eliminar solo esta reserva
+      await deleteDoc(doc(db,'reservations',key(date,court,hour)));
+    }
+    
+    closeView(); toast('🗑 Reserva cancelada');
+  }catch{ toast('Error al cancelar.','error'); }
+  finally{ btn.disabled=false; btn.textContent='🗑 Cancelar reserva'; }
+});
+
+// ── Boot ──────────────────────────────────────────────────────
+loadDate(currentDate);
+</script>
+<!-- Service Worker Registration -->
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then((registration) => {
+        console.log('✅ Service Worker registrado:', registration);
+        
+        // Verificar si hay una nueva versión
+        registration.addEventListener('updatefound', () => {
+          const newWorker = registration.installing;
+          newWorker.addEventListener('statechange', () => {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              // Hay una nueva versión disponible
+              if (confirm('🔄 Hay una nueva versión disponible. ¿Actualizar ahora?')) {
+                window.location.reload();
+              }
+            }
+          });
+        });
+      })
+      .catch((error) => {
+        console.log('❌ Error al registrar Service Worker:', error);
+      });
+  });
+}
+
+// PWA Install Prompt
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  
+  // Mostrar botón de instalación (opcional)
+  setTimeout(() => {
+    if (deferredPrompt && !localStorage.getItem('pwa-dismissed')) {
+      const installBtn = document.createElement('div');
+      installBtn.innerHTML = `
+        <div style="
+          position: fixed; bottom: 20px; right: 20px; z-index: 9999;
+          background: linear-gradient(135deg, #3fd97a, #1da854);
+          color: white; padding: 12px 20px; border-radius: 50px;
+          font-weight: 700; cursor: pointer; box-shadow: 0 4px 20px rgba(63, 217, 122, 0.4);
+          display: flex; align-items: center; gap: 8px; font-size: 14px;
+          animation: slideIn 0.3s ease-out;
+        ">
+          <span>📱</span>
+          <span>Instalar App</span>
+        </div>
+      `;
+      installBtn.onclick = () => {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('✅ App instalada');
+          }
+          deferredPrompt = null;
+          installBtn.remove();
+          localStorage.setItem('pwa-dismissed', 'true');
+        });
+      };
+      document.body.appendChild(installBtn);
+      
+      // Auto-ocultar después de 10 segundos
+      setTimeout(() => {
+        if (installBtn.parentNode) {
+          installBtn.style.animation = 'slideOut 0.3s ease-out';
+          setTimeout(() => installBtn.remove(), 300);
+        }
+      }, 10000);
+    }
+  }, 3000);
+});
+
+// Animaciones CSS para el botón de instalación
+const style = document.createElement('style');
+style.textContent = `
+  @keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+  @keyframes slideOut {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(100%); opacity: 0; }
+  }
+`;
+document.head.appendChild(style);
+</script>
+</body>
+</html>
