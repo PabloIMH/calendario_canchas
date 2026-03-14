@@ -1292,23 +1292,23 @@ if ('serviceWorker' in navigator) {
           const newWorker = registration.installing;
           newWorker.addEventListener('statechange', () => {
             if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-              // Hay una nueva versión disponible
-              if (confirm('🔄 Hay una nueva versión disponible. ¿Actualizar ahora?')) {
-                window.location.reload();
-              }
+              console.log(' Nueva versión disponible, recargando...');
+              window.location.reload();
             }
           });
         });
       })
       .catch((error) => {
-        console.log('❌ Error al registrar Service Worker:', error);
+        console.error(' Error registrando Service Worker:', error);
       });
   });
 }
 
-// PWA Install Prompt
+// PWA Installation Prompt
 let deferredPrompt;
+
 window.addEventListener('beforeinstallprompt', (e) => {
+  console.log(' PWA installation prompt detected');
   e.preventDefault();
   deferredPrompt = e;
   
