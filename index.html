@@ -6,6 +6,7 @@
 <title>Canchas · Reservas</title>
 <meta name="description" content="Sistema de reservas de canchas deportivas"/>
 <meta name="theme-color" content="#3fd97a"/>
+<meta name="mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <meta name="apple-mobile-web-app-title" content="Canchas Reservas"/>
@@ -1428,26 +1429,15 @@ document.head.appendChild(style);
   const timestamp = Date.now();
   const currentUrl = window.location.href;
   
-  // Si no tiene timestamp, agregarlo y recargar
+  // Solo agregar v= si no lo tiene, pero NO recargar excesivamente si ya lo tiene
   if (currentUrl.indexOf('?v=') === -1) {
     const newUrl = currentUrl.split('?')[0] + '?v=' + timestamp;
-    console.log('🔄 Forzando recarga completa con timestamp:', newUrl);
+    console.log('🔄 Agregando timestamp para evitar caché inicial:', newUrl);
     window.location.replace(newUrl);
     return;
   }
   
-  // Si ya tiene timestamp pero es viejo (más de 1 hora), recargar
-  // Cambiado de 5 segundos a 1 hora para no ser tan agresivo y permitir que la PWA respire
-  const urlParams = new URLSearchParams(window.location.search);
-  const existingTimestamp = parseInt(urlParams.get('v') || '0');
-  if (timestamp - existingTimestamp > 3600000) { 
-    const newUrl = currentUrl.split('?')[0] + '?v=' + timestamp;
-    console.log('⚡ Timestamp viejo, recargando:', newUrl);
-    window.location.replace(newUrl);
-    return;
-  }
-  
-  console.log('✅ Versión actual, cargando app...');
+  console.log('✅ Versión actual cargada.');
 })();
 </script>
 </body>
