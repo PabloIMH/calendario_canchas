@@ -187,58 +187,53 @@ main{max-width:700px;margin:0 auto;padding:28px 16px 100px;}
 }
 @media(min-width:440px){.hero-icon{display:block;}}
 
-/* Date strip */
+/* Date strip sticky */
 .date-strip{
   background:var(--ink-2);border:1px solid var(--border);
   border-radius:var(--r-lg);padding:14px;margin-bottom:16px;
-  display:flex;align-items:center;gap:10px;
+  display:flex;align-items:center;justify-content:center;gap:12px;
   animation:fadeUp .5s .08s cubic-bezier(.4,0,.2,1) both;
   position:sticky;top:62px;z-index:75;
-  flex-wrap:nowrap;overflow-x:auto;
 }
 .date-center{
   flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;
-  min-width:0;flex-shrink:0;
+  min-width:0;
 }
 #date-label{
   font-family:'DM Serif Display',serif;
-  font-size:14px;font-weight:600;color:var(--text);
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-  max-width:200px;
-}
-#date-label strong{
-  color:var(--green);font-weight:700;
+  font-size:15px;font-weight:600;color:var(--text);
+  white-space:normal;display:flex;align-items:center;gap:8px;
+  line-height:1.2;text-align:center;
 }
 #date-input{
   background:var(--ink-3);border:1px solid var(--border-2);
   border-radius:8px;color:var(--text-2);
   padding:6px 10px;font-size:12px;font-family:'DM Sans',sans-serif;
   width:140px;text-align:center;
+  cursor: pointer;
 }
 .btn-arrow{
   width:40px;height:40px;border-radius:10px;
   background:var(--ink-3);border:1.5px solid var(--border-2);
-  color:var(--text-2);font-size:18px;
+  color:var(--text-2);font-size:20px;
   display:flex;align-items:center;justify-content:center;
-  cursor:pointer;transition:all .2s;flex-shrink:0;line-height:1;
+  cursor:pointer;transition:all .2s;flex-shrink:0;
 }
 .btn-arrow:hover{background:var(--ink);border-color:var(--border);color:var(--text);}
 .btn-arrow:active{transform:scale(.95);}
 
-/* Mobile responsive */
+/* Mobile responsive navigation */
 @media(max-width:480px){
-  .date-strip{
-    padding:12px 8px;gap:8px;
+  .date-strip{ padding:12px 8px; gap:8px; }
+  .btn-arrow{ width:36px; height:36px; font-size:18px; }
+  #date-label{ 
+    font-size:14px; 
+    flex-wrap:wrap; 
+    justify-content:center;
+    max-width: none !important;
+    overflow: visible !important;
   }
-  .btn-arrow{
-    width:36px;height:36px;font-size:16px;
-  }
-  #date-label{
-    font-size:13px;max-width:160px;
-  }
-  #date-input{
-    width:120px;font-size:11px;padding:5px 8px;
-  }
+  #date-input{ width:125px; font-size:11px; }
 }
 
 /* Stats */
@@ -251,21 +246,16 @@ main{max-width:700px;margin:0 auto;padding:28px 16px 100px;}
   background:linear-gradient(135deg,var(--ink-2),var(--ink-3));
   border:1px solid var(--border);
   border-radius:var(--r-lg);padding:16px 10px;text-align:center;
-  box-shadow:0 4px 16px rgba(0,0,0,.1), 0 0 0 1px rgba(255,255,255,.01);
-  transition:transform .2s, box-shadow .2s;
-}
-.stat-card:hover{
-  transform:translateY(-2px);
-  box-shadow:0 6px 20px rgba(0,0,0,.15), 0 0 0 1px rgba(255,255,255,.02);
+  box-shadow:0 4px 16px rgba(0,0,0,.1);
 }
 .stat-num{
   font-family:'DM Serif Display',serif;
-  font-size:28px;font-weight:400;
+  font-size:24px;font-weight:400;
   display:block;line-height:1;margin-bottom:4px;
 }
-.stat-num.a{color:var(--amber);text-shadow:0 0 8px rgba(245,158,11,.3);}
-.stat-num.r{color:var(--red);text-shadow:0 0 8px rgba(240,82,82,.3);}
-.stat-num.g{color:var(--green);text-shadow:0 0 8px rgba(63,217,122,.3);}
+.stat-num.a{color:var(--amber);}
+.stat-num.r{color:var(--red);}
+.stat-num.g{color:var(--green);}
 .stat-label{
   font-size:10px;font-weight:800;
   text-transform:uppercase;letter-spacing:.08em;color:var(--text-3);
@@ -274,34 +264,23 @@ main{max-width:700px;margin:0 auto;padding:28px 16px 100px;}
 /* Court labels */
 .court-labels{
   display:grid;grid-template-columns:56px 1fr 1fr;
-  gap:6px;margin-bottom:6px;padding:0 2px;
-  animation:fadeUp .5s .16s cubic-bezier(.4,0,.2,1) both;
-  position:sticky;top:62px;z-index:65;background:transparent;padding-bottom:10px;
-  margin-right:0;
+  gap:5px;margin-bottom:10px;
+  position:sticky;top:140px;z-index:65;
+  animation:fadeUp .5s .16s both;
 }
 .court-lbl{
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
+  display:flex;align-items:center;justify-content:center;
   background:linear-gradient(135deg,var(--ink-2),var(--ink-3));
   border:1px solid var(--border);
-  border-radius:var(--r);padding:13px 8px;gap:4px;
-  box-shadow:0 2px 8px rgba(0,0,0,.1);
-  position:relative;z-index:1;
+  border-radius:11px;padding:10px 4px;
+  box-shadow:0 2px 8px rgba(0,0,0,.15);
 }
 .court-lbl .name{
-  font-size:11px;font-weight:800;
-  text-transform:uppercase;letter-spacing:.06em;color:var(--text-2);
+  font-size:10px;font-weight:800;
+  text-transform:uppercase;letter-spacing:.04em;color:var(--text-2);
+  text-align:center;
 }
-.court-lbl.empty{background:transparent;border-color:transparent;}
-
-/* Date strip sticky */
-.date-strip{
-  background:var(--ink-2);border:1px solid var(--border);
-  border-radius:var(--r-lg);padding:18px;margin-bottom:16px;
-  display:flex;align-items:center;gap:12px;
-  animation:fadeUp .5s .08s cubic-bezier(.4,0,.2,1) both;
-  position:sticky;top:62px;z-index:75;
-}
+.court-lbl.empty{background:transparent;border-color:transparent;box-shadow:none;}
 
 /* Schedule */
 .schedule-wrap{
@@ -447,15 +426,17 @@ main{max-width:700px;margin:0 auto;padding:28px 16px 100px;}
 
 /* Badge HOY */
 .today-pill{
-  display:block; /* Cambiado a block para nueva línea */
-  width:fit-content; /* Ancho ajustado al contenido */
-  margin:8px auto 0; /* Centrado con margen arriba */
+  display:inline-flex;
+  align-items:center;
   background:var(--green);color:white;
-  padding:4px 12px;border-radius:20px;
-  font-size:10px;font-weight:700;
+  padding:3px 8px;border-radius:20px;
+  font-size:9px;font-weight:800;
   text-transform:uppercase;letter-spacing:.05em;
-  animation:pulse 2s infinite;
+  margin-left:8px;
+  box-shadow: 0 2px 8px rgba(63, 217, 122, 0.4);
 }
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(63,217,122,0.7)}70%{box-shadow:0 0 0 8px rgba(63,217,122,0)}100%{box-shadow:0 0 0 0 rgba(63,217,122,0)}}
+.today-pill{animation:pulse 2s infinite;}
 
 /* ═══════════ MODALS ═══════════ */
 .overlay{
@@ -1021,7 +1002,14 @@ function refreshLabel(){
 }
 function shiftDay(d){
   const [y,m,day]=currentDate.split('-').map(Number);
-  currentDate=new Date(y,m-1,day+d).toISOString().split('T')[0];
+  const date = new Date(y, m-1, day);
+  date.setDate(date.getDate() + d);
+  
+  const ny = date.getFullYear();
+  const nm = String(date.getMonth() + 1).padStart(2, '0');
+  const nd = String(date.getDate()).padStart(2, '0');
+  
+  currentDate = `${ny}-${nm}-${nd}`;
   document.getElementById('date-input').value=currentDate;
   refreshLabel(); loadDate(currentDate);
 }
@@ -1053,22 +1041,22 @@ function loadDate(date){
 }
 
 function applyPermanentReservations(date){
-  const promises = [];
   const currentDayOfWeek = getDayOfWeek(date);
   
   Object.entries(permanentReservations).forEach(([permKey, permRes])=>{
     const [court, hour, dayOfWeek] = permKey.split('|');
     
-    // Protección: ignorar permanentes corruptas (dayOfWeek undefined o inválido)
+    // Protección: ignorar permanentes corruptas
     if(dayOfWeek === undefined || dayOfWeek === 'undefined' || isNaN(parseInt(dayOfWeek))){
-      return; // Silenciosamente ignorar datos corruptos
+      return;
     }
     
     // Solo aplicar si coincide el día de la semana
     if(parseInt(dayOfWeek) === currentDayOfWeek){
       const reservationKey=key(date, court, hour);
       
-      // Si no existe ya una reserva para este día, crear la permanente
+      // Si no existe ya una reserva para este día, simular la reserva en el objeto local
+      // SIN escribir en la base de datos si es por parte de un usuario invitado
       if(!reservations[reservationKey]){
         const permData={
           date,court,hour,
@@ -1078,29 +1066,19 @@ function applyPermanentReservations(date){
           isPermanent:true
         };
         reservations[reservationKey]=permData;
-        
-        // Generar la reserva en Firestore para esta fecha
-        promises.push(generatePermanentReservationForDate(date, court, hour, permRes));
       }
     }
   });
   
-  // Ejecutar todas las creaciones en paralelo
-  if(promises.length > 0){
-    Promise.allSettled(promises).then(() => {
-      renderSchedule(); updateStats();
-    });
-  } else {
-    renderSchedule(); updateStats();
-  }
+  renderSchedule(); updateStats();
 }
 
 function updateStats(){
   const total=COURTS.length*HOURS.length;
   const taken=Object.keys(reservations).length;
-  document.getElementById('stat-total').textContent=total;
-  document.getElementById('stat-taken').textContent=taken;
-  document.getElementById('stat-free').textContent=total-taken;
+  if(document.getElementById('stat-total')) document.getElementById('stat-total').textContent=total;
+  if(document.getElementById('stat-taken')) document.getElementById('stat-taken').textContent=taken;
+  if(document.getElementById('stat-free')) document.getElementById('stat-free').textContent=total-taken;
 }
 
 // ── Render ────────────────────────────────────────────────────
@@ -1278,6 +1256,24 @@ setTimeout(() => {
     }, 500);
   }
 }, 2000);
+
+// Función temporal para mostrar/ocultar estadísticas (solo para pruebas)
+function toggleAdminStats() {
+  const statsDiv = document.getElementById('admin-stats');
+  const button = event.target;
+  
+  if (statsDiv.style.display === 'none') {
+    statsDiv.style.display = 'grid';
+    button.textContent = '📊 Ocultar Estadísticas';
+    button.style.background = 'var(--red)';
+    console.log('📊 Estadísticas mostradas (modo admin simulado)');
+  } else {
+    statsDiv.style.display = 'none';
+    button.textContent = '👁️ Mostrar Estadísticas';
+    button.style.background = 'var(--green)';
+    console.log('📊 Estadísticas ocultas');
+  }
+}
 </script>
 <!-- Service Worker Registration -->
 <script>
