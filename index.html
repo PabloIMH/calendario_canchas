@@ -570,6 +570,102 @@ main{max-width:700px;margin:0 auto;padding:28px 16px 100px;}
 #toast.success{border-color:rgba(63,217,122,.35);}
 #toast.error{border-color:rgba(240,82,82,.35);color:var(--red);}
 
+/* ═══════════ LOADING SCREEN ═══════════ */
+.loading-screen{
+  position:fixed;inset:0;
+  background:linear-gradient(135deg, #0f172a 0%, #0d1117 50%, #020617 100%);
+  z-index:9999;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  animation:fadeIn 0.5s ease-out;
+}
+.loading-screen.hide{
+  animation:fadeOut 0.5s ease-out forwards;
+}
+.loading-container{
+  display:flex;flex-direction:column;align-items:center;gap:30px;
+}
+.ball-container{
+  position:relative;width:120px;height:120px;
+  display:flex;align-items:center;justify-content:center;
+}
+.loading-ball{
+  width:80px;height:80px;
+  animation:bounceIn 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+  filter:drop-shadow(0 8px 24px rgba(63, 217, 122, 0.3));
+}
+.loading-text{
+  text-align:center;
+}
+.loading-text h2{
+  font-family:'DM Serif Display',serif;
+  font-size:28px;font-weight:400;
+  color:var(--text);margin-bottom:8px;
+  animation:slideUp 0.8s ease-out 0.3s both;
+}
+.loading-text p{
+  font-family:'DM Sans',sans-serif;
+  font-size:14px;color:var(--text-2);
+  animation:slideUp 0.8s ease-out 0.5s both;
+}
+.loading-progress{
+  position:absolute;bottom:60px;left:50%;
+  transform:translateX(-50%);
+  width:200px;
+}
+.progress-bar{
+  width:100%;height:4px;
+  background:rgba(255,255,255,0.1);
+  border-radius:2px;overflow:hidden;
+}
+.progress-fill{
+  height:100%;background:linear-gradient(90deg, var(--green), #1da854);
+  border-radius:2px;
+  animation:progress 2s ease-in-out infinite;
+}
+
+/* Animaciones premium */
+@keyframes fadeIn{
+  from{opacity:0;}
+  to{opacity:1;}
+}
+@keyframes fadeOut{
+  from{opacity:1;}
+  to{opacity:0;pointer-events:none;}
+}
+@keyframes bounceIn{
+  0%{transform:translateY(-100px) scale(0.3);opacity:0;}
+  25%{transform:translateY(0) scale(1.1);opacity:1;}
+  50%{transform:translateY(-20px) scale(0.9);}
+  75%{transform:translateY(0) scale(1.05);}
+  100%{transform:translateY(0) scale(1);}
+}
+@keyframes slideUp{
+  from{transform:translateY(30px);opacity:0;}
+  to{transform:translateY(0);opacity:1;}
+}
+@keyframes progress{
+  0%{width:0%;}
+  50%{width:70%;}
+  100%{width:100%;}
+}
+
+/* Mobile responsive */
+@media(max-width:480px){
+  .loading-ball{
+    width:60px;height:60px;
+  }
+  .loading-text h2{
+    font-size:24px;
+  }
+  .loading-text p{
+    font-size:13px;
+  }
+  .loading-progress{
+    width:160px;bottom:40px;
+  }
+}
+
 @keyframes fadeUp{
   from{opacity:0;transform:translateY(20px);}
   to{opacity:1;transform:translateY(0);}
@@ -652,6 +748,24 @@ main{max-width:700px;margin:0 auto;padding:28px 16px 100px;}
   </div>
 
 </main>
+
+<!-- Loading Screen -->
+<div class="loading-screen" id="loading-screen">
+  <div class="loading-container">
+    <div class="ball-container">
+      <img src="img_recarga.png" alt="Balón" class="loading-ball" />
+    </div>
+    <div class="loading-text">
+      <h2>Canchas Reservas</h2>
+      <p>Cargando sistema...</p>
+    </div>
+  </div>
+  <div class="loading-progress">
+    <div class="progress-bar">
+      <div class="progress-fill"></div>
+    </div>
+  </div>
+</div>
 
 <!-- ══ MODAL: LOGIN ADMIN ════════════════════════════════════ -->
 <div class="overlay" id="ov-login">
@@ -1134,7 +1248,27 @@ document.getElementById('view-delete').addEventListener('click',async()=>{
 });
 
 // ── Boot ──────────────────────────────────────────────────────
+// Mostrar pantalla de carga
+const loadingScreen = document.getElementById('loading-screen');
+
+// Función para ocultar pantalla de carga
+function hideLoadingScreen() {
+  console.log('🎬 Ocultando pantalla de carga...');
+  loadingScreen.classList.add('hide');
+  setTimeout(() => {
+    loadingScreen.style.display = 'none';
+    console.log('✅ Pantalla de carga oculta');
+  }, 500);
+}
+
+// Iniciar carga inmediatamente
+console.log('🚀 Iniciando carga...');
 loadDate(currentDate);
+
+// Ocultar pantalla de carga después de 2 segundos
+setTimeout(() => {
+  hideLoadingScreen();
+}, 2000);
 </script>
 <!-- Service Worker Registration -->
 <script>
